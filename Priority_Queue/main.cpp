@@ -8,5 +8,7 @@ using namespace std;
 
 int main()
 {
+    Implementation1<int, 10> test(false);
+    cout << test.is_empty() << endl;
     return 0;
 }
