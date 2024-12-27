@@ -16,7 +16,16 @@ private:
     bool is_ascending = false;
 
 public:
-    Implementation2(bool order) { is_ascending = order; fill_n(data_arr, MAX, -1); }
+    Implementation2(bool order) : is_ascending(order)
+    {
+        fill_n(data_arr, MAX, -1);
+        // Change the order if the queue is ascending
+        if (is_ascending)
+        {
+#undef SYMB
+#define SYMB <
+        }
+    }
 
     bool is_empty()
     {
@@ -53,12 +62,7 @@ public:
             cout << "Queue is empty. Panic imminent" << endl;
             exit(0);
         }
-        // Change the order if the queue is ascending
-        if (is_ascending)
-        {
-#undef SYMB
-#define SYMB <
-        }
+        
         // Find the maximum or minimum value based on the order of the queue
         int delete_value_index = 0;
         for (int i = 0; i < MAX; i++)

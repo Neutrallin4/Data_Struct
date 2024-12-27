@@ -4,10 +4,6 @@
 #include "implementation3.h"
 #include "implementation4.h"
 
-#ifndef SYMB
-#define SYMB >
-#endif
-
 using namespace std;
 
 int main()

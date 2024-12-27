@@ -9,7 +9,7 @@ using namespace std;
 // Insert: rear - Remove: search for biggest and replace rear with it
 
 template <class T, int MAX>
-class Implementation3
+class Implementation5
 {
 private:
     T data_arr[MAX];
@@ -17,7 +17,15 @@ private:
     bool is_ascending = false;
 
 public:
-    Implementation3(bool order = false) { is_ascending = order; }
+    Implementation5(bool order = false) : is_ascending(order)
+    {
+        // Change the order if the queue is ascending
+        if (is_ascending)
+        {
+#undef SYMB
+#define SYMB <
+        }
+    }
 
     bool is_empty() { return (rear == 0 ? true : false); }
 
@@ -56,12 +64,6 @@ public:
         {
             cout << "Queue is empty. Panic imminent" << endl;
             exit(0);
-        }
-        // Change the order if the queue is ascending
-        if (is_ascending)
-        {
-#undef SYMB
-#define SYMB <
         }
         // Find the maximum or minimum value based on the order of the queue
         int delete_value_index = 0;
