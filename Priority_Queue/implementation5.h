@@ -6,15 +6,15 @@ using namespace std;
 // Insert: rear - Remove: search for biggest and replace rear with it
 
 template <class T, int MAX>
-class Implementation5
+class Implementation5 : public Queue<T, MAX>
 {
 private:
-    T data_arr[MAX];
     int rear = 0;
-    bool is_ascending = false;
-
+    
 public:
-    Implementation5(bool order = false);
+    Implementation5();
+
+    Implementation5(bool);
 
     bool is_empty();
 
@@ -28,15 +28,10 @@ public:
 };
 
 DECLARE(, Implementation5)
-Implementation5(bool order) : is_ascending(order)
-{
-    // Change the order if the queue is ascending
-    if (is_ascending)
-    {
-#undef SYMB
-#define SYMB <
-    }
-}
+Implementation5() : Queue<T, MAX>() {}
+
+DECLARE(, Implementation5)
+Implementation5(bool order) : Queue<T, MAX>(order) {}
 
 DECLARE(bool, Implementation5)
 is_empty() { return (rear == 0 ? true : false); }
@@ -53,7 +48,7 @@ insert(T data)
         return false;
     }
     // Add the value and increase the rear
-    data_arr[rear++] = data;
+    this->data_arr[rear++] = data;
     return true;
 }
 
@@ -68,11 +63,11 @@ del()
     // Find the maximum or minimum value based on the order of the queue
     int delete_value_index = 0;
     for (int i = 0; i < rear; i++)
-        if (data_arr[i] SYMB data_arr[delete_value_index])
+        if (compare(this->data_arr[i], this->data_arr[delete_value_index], this->is_ascending))
             delete_value_index = i;
-    T temp = data_arr[delete_value_index];
+    T temp = this->data_arr[delete_value_index];
     // Delete the value by replacing it with the last element
-    data_arr[delete_value_index] = data_arr[--rear];
+    this->data_arr[delete_value_index] = this->data_arr[--rear];
     // Return the temporary variable
     return temp;
 }
@@ -82,6 +77,6 @@ display()
 {
     cout << "Diaplaying Implementation 5 Queue:" << endl;
     for(int i = 0; i < rear - 1; i++)
-        cout << data_arr[i] << " - ";
-    cout << data_arr[rear - 1] << endl;
+        cout << this->data_arr[i] << " , ";
+    cout << this->data_arr[rear - 1] << endl;
 }

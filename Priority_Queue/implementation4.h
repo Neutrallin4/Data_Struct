@@ -5,16 +5,33 @@ using namespace std;
 
 // Insert: Always sorted manner - Remove: rear
 
-DECLARE(, Implementation4)
-Implementation4(bool order) : is_ascending(order)
+template <class T, int MAX>
+class Implementation4 : public Queue<T, MAX>
 {
-    // Change the order if the queue is ascending
-    if (is_ascending)
-    {
-#undef SYMB
-#define SYMB <
-    }
-}
+private:
+    int rear = 0;
+    
+public:
+    Implementation4();
+
+    Implementation4(bool order);
+
+    bool is_empty();
+
+    bool is_full();
+
+    bool insert(T);
+
+    T del();
+
+    void display();
+};
+
+DECLARE(, Implementation4)
+Implementation4() : Queue<T, MAX>() {}
+
+DECLARE(, Implementation4)
+Implementation4(bool order) : Queue<T, MAX>(order) {}
 
 DECLARE(bool, Implementation4)
 is_empty() { return (rear == 0 ? true : false); }
@@ -33,15 +50,15 @@ insert(T data)
 
     // Add the value and increase the rear
     for (int i = rear - 1; i >= 0; i--)
-        if (data_arr[i] SYMB data)
-            data_arr[i + 1] = data[i];
+        if (compare(this->data_arr[i], data, this->is_ascending))
+            this->data_arr[i + 1] = this->data_arr[i];
         else
         {
-            data_arr[i + 1] = data;
+            this->data_arr[i + 1] = data;
             rear++;
             return true;
         }
-    data_arr[0] = data;
+    this->data_arr[0] = data;
     rear++;
     return true;
 }
@@ -55,7 +72,7 @@ del()
         exit(0);
     }
     // Return rear
-    return data_arr[--rear];
+    return this->data_arr[--rear];
 }
 
 DECLARE(void, Implementation4)
@@ -63,6 +80,6 @@ display()
 {
     cout << "Diaplaying Implementation 4 Queue:" << endl;
     for (int i = 0; i < rear - 1; i++)
-        cout << data_arr[i] << " - ";
-    cout << data_arr[rear - 1] << endl;
+        cout << this->data_arr[i] << " , ";
+    cout << this->data_arr[rear - 1] << endl;
 }

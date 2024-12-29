@@ -1,125 +1,28 @@
 #pragma once
-
-/*
-BUG List: Default constructors
-*/
-
 #include <iostream>
 
-#define DECLARE(type, class_name) template <class T, int MAX> \
-type class_name<T, MAX>::
+#define DECLARE(type, class_name) \
+    template <class T, int MAX>   \
+    type class_name<T, MAX>::
 
-#ifndef SYMB
-#define SYMB >
-#endif
-
-template <class T, int MAX>
-class Implementation1       // Insert: rear - Remove: search for biggest - shift everything left
-{
-private:
-    T data_arr[MAX];
-    int rear = 0;
-    bool is_ascending = false;
-
-public:
-    Implementation1(bool);
-
-    bool is_empty();
-
-    bool is_full();
-
-    bool insert(T);
-
-    T del();
-
-    void display();
-};
+// Helper function for comparison
+template <typename T>
+T compare(T a, T b, bool lever) { return (lever ? (a < b) : (a > b)); }
 
 template <class T, int MAX>
-class Implementation2       // Insert: first empty place - Remove: search for biggest - removal tag
+class Queue
 {
-private:
+protected:
     T data_arr[MAX];
     bool is_ascending = false;
 
 public:
-    Implementation2(bool order);
-
-    bool is_empty();
-
-    bool is_full();
-
-    bool insert(T);
-
-    T del();
-
-    void display();
+    Queue() : is_ascending(false) {}
+    Queue(bool order) : is_ascending(order) {}
 };
 
-template <class T, int MAX>
-class Implementation3       // Insert: rear - Remove: search for biggest - removal tag - Compression when rear = MAX
-{
-private:
-    T data_arr[MAX];
-    int rear = 0;
-    bool is_ascending = false;
-
-public:
-    Implementation3(bool order = false);
-
-    bool is_empty();
-
-    bool is_full();
-
-    bool compress();
-
-    bool insert(T data);
-
-    T del();
-
-    void display();
-};
-
-template <class T, int MAX>
-class Implementation4       // Insert: Always sorted manner - Remove: rear
-{
-private:
-    T data_arr[MAX];
-    int rear = 0;
-    bool is_ascending = false;
-
-public:
-    Implementation4(bool order = false);
-
-    bool is_empty();
-
-    bool is_full();
-
-    bool insert(T);
-
-    T del();
-
-    void display();
-};
-
-template <class T, int MAX>
-class Implementation5       // Insert: rear - Remove: search for biggest and replace rear with it
-{
-private:
-    T data_arr[MAX];
-    int rear = 0;
-    bool is_ascending = false;
-
-public:
-    Implementation5(bool order = false);
-
-    bool is_empty();
-
-    bool is_full();
-
-    bool insert(T);
-
-    T del();
-
-    void display();
-};
+#include "implementation1.h"
+#include "implementation2.h"
+#include "implementation3.h"
+#include "implementation4.h"
+#include "implementation5.h"

@@ -5,16 +5,33 @@ using namespace std;
 
 // Insert: rear - Remove: search for biggest - shift everything left
 
-DECLARE(, Implementation1)
-Implementation1(bool order) : is_ascending(order)
+template <class T, int MAX>
+class Implementation1 : public Queue<T, MAX>
 {
-    // Change the order if the queue is ascending
-    if (is_ascending)
-    {
-#undef SYMB
-#define SYMB <
-    }
-}
+private:
+    int rear = 0;
+
+public:
+    Implementation1();
+
+    Implementation1(bool);
+
+    bool is_empty();
+
+    bool is_full();
+
+    bool insert(T);
+
+    T del();
+
+    void display();
+};
+
+DECLARE(, Implementation1)
+Implementation1() : Queue<T, MAX>() {}
+
+DECLARE(, Implementation1)
+Implementation1(bool order) : Queue<T, MAX>(order) {}
 
 DECLARE(bool, Implementation1)
 is_empty() { return (rear == 0 ? true : false); }
@@ -31,7 +48,7 @@ insert(T data)
         return false;
     }
     // Add the value and increase the rear
-    data_arr[rear++] = data;
+    this->data_arr[rear++] = data;
     return true;
 }
 
@@ -46,12 +63,12 @@ del()
     // Find the maximum or minimum value based on the order of the queue
     int delete_value_index = 0;
     for (int i = 0; i < rear; i++)
-        if (data_arr[i] SYMB data_arr[delete_value_index])
+        if (compare(this->data_arr[i], this->data_arr[delete_value_index], this->is_ascending))
             delete_value_index = i;
-    T temp = data_arr[delete_value_index];
+    T temp = this->data_arr[delete_value_index];
     // Delete the value by shifting
-    for (int i = delete_value_index + 1; i < rear;)
-        data_arr[i++] = data_arr[i];
+    for (int i = delete_value_index; i < rear; i++)
+        this->data_arr[i] = this->data_arr[i + 1];
     // Return the temporary variable
     rear--;
     return temp;
@@ -60,8 +77,8 @@ del()
 DECLARE(void, Implementation1)
 display()
 {
-    cout << "Diaplaying Implementation 1 Queue:" << endl;
+    cout << "Displaying Implementation 1 Queue:" << endl;
     for (int i = 0; i < rear - 1; i++)
-        cout << data_arr[i] << " - ";
-    cout << data_arr[rear - 1] << endl;
+        cout << this->data_arr[i] << " , ";
+    cout << this->data_arr[rear - 1] << endl;
 }
