@@ -13,69 +13,61 @@ template <typename T>
 class Binary_Tree
 {
 private:
-    Node<T> *head;
+    Node<T> *head = nullptr;
     int height = 0;
 
-public:
-    bool is_full()
-    {
-        Node<T> *anchor = head;
-        for (int i = 1; i < height; i++)
-            anchor = anchor->right;
-        if (anchor->right == nullptr)
-            return false;
-        return true;
+    void delete_tree(Node<T>* node) {
+        if (node) {
+            delete_tree(node->left);
+            delete_tree(node->right);
+            delete node;
+        }
     }
 
-    bool add(int data, Node<T> *anchor = head, int h = height)
+    bool add_recursive(T data, Node<T> *node, int current_height)
     {
-        if (is_full())
+        if(node->left == nullptr)
         {
-            Node<T> *anchor = head, *temp;
-            for (int i = 1; i < height; i++)
-                anchor = anchor->left;
-            temp->data = data;
-            temp->up = anchor;
-            anchor->left = temp;
-            head++;
+            node->left == new Node<T> {data};
+            node->left->up = node;
+            if(current_height + 1 > height) height = current_height + 1;
             return true;
         }
-
-        if (h >= 0)
+        else if(node->right == nullptr)
         {
-            if (anchor->left != nullptr)
-            {
-                if (add(data, h - 1))
-                    return true;
-            }
-            else
-            {
-                Node<T> temp;
-                temp->data = data;
-                temp->up = anchor;
-                anchor->left = *temp;
-                return true;
-            }
-
-            if (anchor->right != nullptr)
-            {
-                if (add(data, h - 1))
-                    return true;
-            }
-            else
-            {
-                Node<T> temp;
-                temp->data = data;
-                temp->up = anchor;
-                anchor->right = *temp;
-                return true;
-            }
+            node->right == new Node<T> {data};
+            node->right->up = node;
+            if(current_height + 1 > height) height = current_height + 1;
+            return true;
+        }
+        else
+        {
+            if (add_recursive(data, node->left, current_height + 1)) return true;
+            return add_recursive(data, node->right, current_height + 1);
         }
         return false;
+    }
+
+public:
+    ~Binary_Tree() { delete_tree(head); }
+
+    bool add(T data)
+    {
+        if(head == nullptr)
+        {
+            head = new Node<T> {data};
+            height++;
+            return true;
+        }
+        return add_recursive(data, head, 1);
     }
 };
 
 int main()
 {
-    return 0;
+    Binary_Tree<int> test;
+    test.add(5);
+    test.add(10);
+    test.add(20);
+    test.add(40);
 }
