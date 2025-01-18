@@ -50,6 +50,44 @@ private:
         return false;
     }
 
+    // Returns the sum of every node in the tree
+    T sum_recursive(Node<T> node)
+    {
+        if (node == nullptr)
+            return 0;
+        return node->data + sum(node->right) + sum(node->left);
+    }
+
+    void preorder(Node<T> node)
+    {
+        if(node != nullptr)
+        {
+            cout << node->data << " ";
+            inorder(node->left);
+            inorder(node->right);
+        }
+    }
+
+    void inorder(Node<T> node)
+    {
+        if(node != nullptr)
+        {
+            inorder(node->left);
+            cout << node->data << " ";
+            inorder(node->right);
+        }
+    }
+
+    void postorder(Node<T> node)
+    {
+        if(node != nullptr)
+        {
+            inorder(node->left);
+            inorder(node->right);
+            cout << node->data << " ";
+        }
+    }
+
 public:
     ~Binary_Tree() { delete_tree(head); }
 
@@ -63,6 +101,15 @@ public:
             return true;
         }
         return add_recursive(data, head, 1);
+    }
+
+    T sum() { return sum_recursive(head); }
+
+    void display()
+    {
+        cout << "prefix: " << prefix(head);
+        cout << "infix: " << infix(head);
+        cout << "postfix: " << postfix(head);
     }
 };
 
